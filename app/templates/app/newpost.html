@@ -1,0 +1,28 @@
+﻿{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<h3>Добавить статью</h3>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {{ blogform.as_p }}
+        <button type="submit" class="save btn btn-default">Сохранить статью</button>
+    </div>
+</form>
+
+<style>
+    .border-bottom-input {
+        border: 0;
+        // remove default border border-bottom:1px solid #eee;
+        // add only bottom border
+    }
+
+    input[type=text] {
+        padding: 10px;
+        border: 0;
+        box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
+    }
+</style>
+{% endblock %}

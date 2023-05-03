@@ -1,0 +1,105 @@
+{% extends "app/layout.html" %}
+{% block content %}
+{% if form != None %}
+<body>
+<br>
+<h2>Отправьте пожалуйста заполненную анкету</h2>
+<br>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+        {{ form.name }}<br><br>
+        <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
+        {{ form.city }}<br>
+        <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
+        {{ form.gender }}
+        <label for="{{ form.job.id_for_label }}">{{ form.job.label }}:</label><br>
+        {{ form.job }}<br><br>
+        <label for="{{ form.internet.id_for_label }}">{{ form.internet.label }}:</label><br>
+        {{ form.internet }}<br><br>
+        <label for="{{ form.notice.id_for_label }}">{{ form.notice.label }}</label>
+        {{ form.notice }}<br><br>
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label}}:</label>
+        {{ form.email }}<br><br>
+        <label for="{{ form.message.id_for_label }}">{{ form.message.label }}:</label><br>
+        {{ form.message }}<br><br>
+        <button id="submit-btn" type="submit">Отправить</button>
+    </form>
+
+   
+</div>
+{% else %}
+<br>
+<h2>Благодарим за предоставленную информацию!</h2>
+<h3>Вы сообщили о себе следующее:</h3>
+<ul>
+    <li><span>Имя:</span> {{ data.name }}</li>
+    <li><span>Город:</span> {{ data.city }}</li>
+    <li><span>Пол:</span> {{ data.gender }}</li>
+    <li><span>Работа:</span> {{ data.job }}</li>
+    <li><span>В интернете:</span> {{ data.internet }}</li>
+    <li>
+        <span>Получать новости сайта на e_mail:</span>
+        {{ data.notice }}
+    </li>
+    <li><span>Ваш e-mail:</span> {{ data.email }}</li>
+    <li><span>Информация о себе:</span> {{ data.message }} </li>
+</ul>
+</body>
+{% endif %}
+<style>
+    <script >
+    const grayFocus = (element) = > {
+        element .addEventListener('focus', () => {
+            element.style.backgroundColor = 'lightgray';
+        });
+        element .addEventListener('blur', () => {
+            element.style.backgroundColor = '';
+        });
+    }
+
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submit-btn');
+    const inputs = document.querySelectorAll('input');
+    const textareas = document.querySelectorAll('textarea');
+
+    submitBtn.addEventListener('mouseover', () => {
+        submitBtn.style.color = 'white';
+        submitBtn.style.backgroundColor = 'darkblue';
+    });
+
+    submitBtn.addEventListener('mouseout', () => {
+        submitBtn.style.color = '';
+        submitBtn.style.backgroundColor = '';
+    });
+
+    inputs.forEach(input => grayFocus(input));
+    textareas.forEach(textarea => grayFocus(textarea));
+    </script >
+
+    <style >
+    select {
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    option {
+        padding: 5px 0;
+    }
+
+    input[type=checkbox] {
+        transform: scale(1.5);
+        padding: 10px;
+        margin: 3px;
+    }
+
+    input[type=radio] {
+        transform: scale(1.5);
+        padding: 10px;
+        margin: 3px;
+    }
+</style>
+{% endblock %}
+
+
