@@ -3,8 +3,9 @@
 
 {% block content %}
 
-<h3>Добавить статью</h3>
-<form method="POST" enctype="multipart/form-data">
+<form class="form" method="POST" enctype="multipart/form-data">
+    <h2 class="form_title">Добавить новую статью</h2>
+    <br>
     {% csrf_token %}
     <div>
         {{ blogform.as_p }}
@@ -13,16 +14,56 @@
 </form>
 
 <style>
-    .border-bottom-input {
-        border: 0;
-        // remove default border border-bottom:1px solid #eee;
-        // add only bottom border
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 120vh;
     }
 
-    input[type=text] {
-        padding: 10px;
-        border: 0;
-        box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
+    .form {
+        width: 600px;
+        padding: 32px;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px #ccc;
+        font-family: sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .form__input,
+    .form__button {
+        font-family: sans-serif;
+        letter-spacing: 1px;
+        font-size: 16px;
+    }
+
+    .form__title {
+        position: relative;
+        margin: 0 0 32px 0;
+        font-weight: normal;
+    }
+
+    .form__group {
+        position: relative;
+        margin-bottom: 32px;
+    }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        color: #9e9e9e;
+        transition: 0.3s;
+    }
+
+    .form__input {
+        width: 100%;
+        padding: 0 0 10px 0;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        background-color: transparent;
+        outline: none;
+        transition: 0.3s;
     }
 </style>
 {% endblock %}

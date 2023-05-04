@@ -37,14 +37,12 @@
         <p class="comment-text">{{comment.text|linebreaksbr}}</p>
     </div>
     {% endfor %}
-
-    <a class="blogpost-return" href="{% url 'blog' %}">Назад</a>
+    <br>
+    <a class="save btn btn-default" href="{% url 'blog' %}">Назад</a>
 </div>
 
 <style>
    
-
-
     .blogpost {
         background-color: white;
         border: 1px solid #ddd;

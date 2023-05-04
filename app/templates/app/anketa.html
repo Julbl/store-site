@@ -1,60 +1,54 @@
-{% extends "app/layout.html" %}
+﻿{% extends "app/layout.html" %}
+{% load static %}
+
+
 {% block content %}
 {% if form != None %}
 <body>
-<br>
-<h2>Отправьте пожалуйста заполненную анкету</h2>
-<br>
-<div>
-    <form method="post">
-        {% csrf_token %}
-        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
-        {{ form.name }}<br><br>
-        <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
-        {{ form.city }}<br>
-        <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
-        {{ form.gender }}
-        <label for="{{ form.job.id_for_label }}">{{ form.job.label }}:</label><br>
-        {{ form.job }}<br><br>
-        <label for="{{ form.internet.id_for_label }}">{{ form.internet.label }}:</label><br>
-        {{ form.internet }}<br><br>
-        <label for="{{ form.notice.id_for_label }}">{{ form.notice.label }}</label>
-        {{ form.notice }}<br><br>
-        <label for="{{ form.email.id_for_label }}">{{ form.email.label}}:</label>
-        {{ form.email }}<br><br>
-        <label for="{{ form.message.id_for_label }}">{{ form.message.label }}:</label><br>
-        {{ form.message }}<br><br>
-        <button id="submit-btn" type="submit">Отправить</button>
+    <div>
+        <form class="form" method="post">
+            <h2 class="form_title">Отправьте, пожалуйста, заполненную анкету</h2>
+            <br>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button id="submit-btn" class="save btn btn-default" type="submit">Отправить</button>
+        </form>
+    </div>
+    {% else %}
+    <form class="form" method="post">
+        <br>
+        <h2>Благодарим за предоставленную информацию!</h2>
+        <h3>Вы сообщили о себе следующее:</h3>
+        <ul>
+            <li><span>Имя:</span> {{ data.name }}</li>
+            <br>
+            <li><span>Город:</span> {{ data.city }}</li>
+            <br>
+            <li><span>Пол:</span> {{ data.gender }}</li>
+            <br>
+            <li><span>Работа:</span> {{ data.job }}</li>
+            <br>
+            <li><span>В интернете:</span> {{ data.internet }}</li>
+            <br>
+            <li>
+                <span>Получать новости сайта на e_mail:</span>
+                {{ data.notice }}
+            </li>
+            <br>
+            <li><span>Ваш e-mail:</span> {{ data.email }}</li>
+            <br>
+            <li><span>Информация о себе:</span> {{ data.message }} </li>
+        </ul>
     </form>
-
-   
-</div>
-{% else %}
-<br>
-<h2>Благодарим за предоставленную информацию!</h2>
-<h3>Вы сообщили о себе следующее:</h3>
-<ul>
-    <li><span>Имя:</span> {{ data.name }}</li>
-    <li><span>Город:</span> {{ data.city }}</li>
-    <li><span>Пол:</span> {{ data.gender }}</li>
-    <li><span>Работа:</span> {{ data.job }}</li>
-    <li><span>В интернете:</span> {{ data.internet }}</li>
-    <li>
-        <span>Получать новости сайта на e_mail:</span>
-        {{ data.notice }}
-    </li>
-    <li><span>Ваш e-mail:</span> {{ data.email }}</li>
-    <li><span>Информация о себе:</span> {{ data.message }} </li>
-</ul>
 </body>
 {% endif %}
-<style>
-    <script >
-    const grayFocus = (element) = > {
-        element .addEventListener('focus', () => {
-            element.style.backgroundColor = 'lightgray';
+<script>
+    const grayFocus = (element) => {
+        element.addEventListener('focus', () => {
+            element.style.backgroundColor = '#9370DB';
         });
-        element .addEventListener('blur', () => {
+
+        element.addEventListener('blur', () => {
             element.style.backgroundColor = '';
         });
     }
@@ -66,7 +60,7 @@
 
     submitBtn.addEventListener('mouseover', () => {
         submitBtn.style.color = 'white';
-        submitBtn.style.backgroundColor = 'darkblue';
+        submitBtn.style.backgroundColor = '#9370DB';
     });
 
     submitBtn.addEventListener('mouseout', () => {
@@ -76,9 +70,9 @@
 
     inputs.forEach(input => grayFocus(input));
     textareas.forEach(textarea => grayFocus(textarea));
-    </script >
+</script>
 
-    <style >
+<style>
     select {
         padding: 10px;
         border-radius: 5px;
@@ -99,7 +93,57 @@
         padding: 10px;
         margin: 3px;
     }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 140vh;
+    }
+
+    .form {
+        width: 600px;
+        padding: 32px;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px #ccc;
+        font-family: sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .form__input,
+    .form__button {
+        font-family: sans-serif;
+        letter-spacing: 1px;
+        font-size: 16px;
+    }
+
+    .form__title {
+        position: relative;
+        margin: 0 0 32px 0;
+        font-weight: normal;
+    }
+
+    .form__group {
+        position: relative;
+        margin-bottom: 32px;
+    }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        color: #9e9e9e;
+        transition: 0.3s;
+    }
+
+    .form__input {
+        width: 100%;
+        padding: 0 0 10px 0;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        background-color: transparent;
+        outline: none;
+        transition: 0.3s;
+    }
 </style>
 {% endblock %}
-
-

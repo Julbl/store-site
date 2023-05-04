@@ -1,12 +1,68 @@
 {% extends "app/layout.html" %}
 {% block content %}
-<h2>Регистрация пользователя</h2>
-    <form method="POST" > {% csrf_token %}
-        <div>
-            {{ regform.as_p }}
+<body>
+<form class="form" method="POST">
+    {% csrf_token %}
+    <h2 class="form_title">Регистрация пользователя</h2>
+    <br>
+    <div>
+        {{ regform.as_p }}
 
-            <button type="submit" class="save btn btn-default" >
-            Зарегистрировать </button>
-        </div>
-    </form>
+        <button type="submit" class="save btn btn-default">Зарегистрировать</button>
+    </div>
+</form>
+</body>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .form {
+        width: 600px;
+        padding: 32px;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px #ccc;
+        font-family: sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .form__input,
+    .form__button {
+        font-family: sans-serif;
+        letter-spacing: 1px;
+        font-size: 16px;
+    }
+
+    .form__title {
+        position: relative;
+        margin: 0 0 32px 0;
+        font-weight: normal;
+    }
+
+    .form__group {
+        position: relative;
+        margin-bottom: 32px;
+    }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        color: #9e9e9e;
+        transition: 0.3s;
+    }
+
+    .form__input {
+        width: 100%;
+        padding: 0 0 10px 0;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        background-color: transparent;
+        outline: none;
+        transition: 0.3s;
+    }
+</style>
 {% endblock %}
