@@ -2,47 +2,52 @@
 {% load static %}
 
 {% block content %}
-<div class="blogpost">
+<div class="container">
+    <div class="post">
+        <div class="post-header">
+            <h1>{{ post_1.title }}</h1>
+            <br>
+            <br>
+        </div>
+        <div class="blogpost">
+            {% if post_1.image and post_1.image.url != '/media/temp.jpg' %}
+            <img class="blogpost-image" src="{{ post_1.image.url }}" alt="Картинка статьи блога" width="350" />
+            {% endif %}
+            <div class="post-content">
+                <p class="blogpost-content">{{post_1.content|linebreaksbr}}</p>
+                <div class="blogpost-comment">
+                    {% if user.is_authenticated %}
+                    <h3 class="blogpost-comment-title">Добавить комментарий</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div>
+                            {{form.as_p}}
+                            <button type="submit" class="save btn btn-default">Отправить комментарий</button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <h3 class="blogpost-comment-title">Для добавления комментария, пожалуйста, авторизуйтесь или создайте аккаунт</h3>
+                    {% endif %}
+                </div>
+                <br />
+                <hr class="blogpost-line" />
 
-    {% if post_1.image and post_1.image.url != '/media/temp.jpg' %}
-    <img class="blogpost-image" src="{{ post_1.image.url }}" alt="Картинка статьи блога" width="350" />
-    {% endif %}
-
-    <h2 class="blogpost-title">{{ post_1.title }}</h2>
-
-    <p class="blogpost-content">{{post_1.content|linebreaksbr}}</p>
-
-    <div class="blogpost-comment">
-        {% if user.is_authenticated %}
-        <h3 class="blogpost-comment-title">Добавить комментарий</h3>
-        <form method="post">
-            {% csrf_token %}
-            <div>
-                {{form.as_p}}
-                <button type="submit" class="save btn btn-default">Отправить комментарий</button>
+                {% for comment in comments %}
+                <div class="comment">
+                    <!--<hr class="comment-line" />-->
+                    <h7 class="comment-date">{{comment.date}}</h7>
+                    <h5 class="comment-author">{{comment.author}}</h5>
+                    <p class="comment-text">{{comment.text|linebreaksbr}}</p>
+                </div>
+                {% endfor %}
+                <br>
+                <a class="save btn btn-default" href="{% url 'blog' %}">Назад</a>
             </div>
-        </form>
-        {% else %}
-        <h3 class="blogpost-comment-title">Для добавления комментария, пожалуйста, авторизуйтесь</h3>
-        {% endif %}
+        </div>
     </div>
-    <br />
-    <hr class="blogpost-line" />
-
-    {% for comment in comments %}
-    <div class="comment">
-        <!--<hr class="comment-line" />-->
-        <h7 class="comment-date">{{comment.date}}</h7>
-        <h5 class="comment-author">{{comment.author}}</h5>
-        <p class="comment-text">{{comment.text|linebreaksbr}}</p>
-    </div>
-    {% endfor %}
-    <br>
-    <a class="save btn btn-default" href="{% url 'blog' %}">Назад</a>
 </div>
-
 <style>
-   
+
     .blogpost {
         background-color: white;
         border: 1px solid #ddd;
