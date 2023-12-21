@@ -37,6 +37,7 @@
                     <li><a href="{% url 'contact' %}">Контакты</a></li>
                     <li><a href="{% url 'links' %}">Ссылки</a></li>
                     <li><a href="{% url 'anketa' %}">Обратная связь</a></li>
+                    <li><a href="{% url 'product_list' %}">Наш магазин</a></li>
                     {% if user.is_superuser %}
                     <li ><a href="{% url 'newpost' %}">Добавить статью</a></li>
                     {% endif %}

@@ -1,0 +1,123 @@
+{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <title>Список товаров</title>
+    <style>
+        .product-card {
+            width: 250px; /* Ширина карточки */
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-description {
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .product-price {
+            font-size: 16px;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .add-to-cart-btn {
+            background-color: #fff;
+            color: #4caf50;
+            text-decoration: none;
+            border: 1px solid #4caf50;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Наши товары</h1>
+     <div id="cart-icon">
+        <a href="{% url 'view_cart' %}" target="_blank">
+            <img src="{% static 'app/content/cart-icon.png' %}" alt="Корзина">
+        </a>
+    </div>
+       <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+        {% for product in products %}
+            <div class="product-card">
+                <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p class="product-description">{{ product.description }}</p>
+                <div class="product-details">
+                    <p class="product-price">
+                        Цена: {{ product.price }} руб.
+                    </p>
+                   <form id="add-to-cart-form-{{ product.id }}" class="add-to-cart-form" method="post" data-product-id="{{ product.id }}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="number" id="id_quantity_{{ product.id }}" name="quantity" value="1" min="1">
+                        <button class="add-to-cart-btn" type="button" onclick="addToCart({{ product.id }})">
+                            <img src="{% static 'app/content/cart-icon.png' %}" alt="Добавить в корзину">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+         function addToCart(productId) {
+             var formId = 'add-to-cart-form-' + productId;
+             var quantity = document.getElementById(formId).querySelector('[name="quantity"]').value;
+
+
+            var formData = new FormData();
+            formData.append('quantity', quantity);
+
+
+            fetch('/add_to_cart/' + productId + '/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                alert('Товар добавлен в корзину. Общая стоимость: ' + data.total_price);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+            console.log('Sending request to add to cart...');
+            console.log('Product ID:', productId);
+            console.log('Quantity:', quantity);
+        }
+
+         function toggleCart() {
+        var cartContainer = document.getElementById('cart-container');
+        cartContainer.style.display = (cartContainer.style.display === 'none' || cartContainer.style.display === '') ? 'block' : 'none';
+
+
+        if (cartContainer.style.display === 'block') {
+            fetch('/get_cart_contents/')
+                .then(response => response.text())
+                .then(data => {
+                    cartContainer.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+        }
+    }
+    </script>
+</body>
+</html>
+{% endblock %}

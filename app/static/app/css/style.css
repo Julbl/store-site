@@ -1,0 +1,19 @@
+.product {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.product-info {
+  display: flex;
+}
+
+.product-image img {
+  max-width: 100px; /* Задайте желаемую максимальную ширину для изображения */
+  height: auto;
+  margin-right: 10px;
+}
+
+.product-details {
+  flex-grow: 1;
+}
